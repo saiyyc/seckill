@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.SeckillOrderDao">
+    <insert id="SeckillOrder">
+        insert into seckill_order(seckill_id,user_phone,state)
+        values ( #{seckillId},#{userPhone},0 )
+    </insert>
+    <select id="queryByIdWithSeckill" resultType="SeckillOrder">
+        <!-- 根据id查询SeckillOrder并携带Seckill实体-->
+        <!--可以自由控制SQL-->
+        SELECT
+        so.seckill_id,
+        so.user_phone,
+        so.money,
+        so.create_time,
+        so.state,
+        s.seckill_id "seckill.seckill_id",
+        s.title "seckill.title",
+        s.cost_price "seckill.cost_price",
+        s.create_time "seckill.create_time",
+        s.start_time "seckill.start_time",
+        s.end_time "seckill.end_time",
+        s.stock_count "seckill.stock_count"
+        FROM seckill_order so
+        INNER JOIN seckill s ON so.seckill_id = s.seckill_id
+        WHERE so.seckill_id = #{seckillId} and so.user_phone = #{userPhone}
+    </select>
+</mapper>
